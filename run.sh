@@ -1,1 +1,1 @@
-clojure -M -m core
+clojure -M:run-main

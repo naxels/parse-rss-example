@@ -1,1 +1,14 @@
-{:deps {org.clojure/clojure {:mvn/version "1.10.3"}}}
+{:deps {org.clojure/clojure {:mvn/version "1.10.3"}}
+ :aliases {:run-main {:jvm-opts ["--illegal-access=deny"]
+                      :main-opts ["-m" "core"]}
+           :native-image {:extra-deps {luchiniatwork/cambada {:mvn/version "1.0.5"}}
+                          :jvm-opts ["--illegal-access=deny"]
+                          :main-opts ["-m" "cambada.native-image"
+                                      "-m" "core"
+                                      "--image-name" "parse-rss-example"]}
+           :uberjar {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.0.216"}}
+                     :jvm-opts ["--illegal-access=deny"]
+                     :exec-fn hf.depstar/uberjar
+                     :exec-args {:aot true
+                                 :main-class core
+                                 :jar target/parse_rss.jar}}}}

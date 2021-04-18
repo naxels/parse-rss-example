@@ -1,0 +1,1 @@
+clojure -M:native-image

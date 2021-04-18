@@ -1,4 +1,5 @@
 (ns core
+  (:gen-class)
   (:require [clojure.xml]
             ; [clojure.inspector]
             ; [clojure.pprint]
