@@ -1,7 +1,8 @@
 (ns core
   (:gen-class)
-  (:require [clojure.data.xml]
-            [clojure.java.io :as io]
+  (:require [clojure.xml :as xml]
+            ; [clojure.data.xml]
+            ; [clojure.java.io :as io]
             ; [clojure.inspector]
             ; [clojure.pprint]
             ))
@@ -32,7 +33,7 @@
 
 ;; turn string to xml
 ; (def feed (clojure.xml/parse feed-str))
-(def feed (xml-seq (clojure.data.xml/parse (io/reader uri))))
+(def feed (xml-seq (xml/parse uri)))
 
 ; (clojure.inspector/inspect feed)
 

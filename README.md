@@ -13,14 +13,14 @@ Then ultimately it's abstracted into functions and composed into outputting the 
 # GraalVM Native image
 
 If you have GraalVM installed and setup, you can generate a Native image using:
-> ./create-native.sh
+> ./build-native.sh
 
 If you want to generate a native image for the linux platform (and don't use linux as host), use Docker:
-> ./build-docker.sh
-> ./docker-build-native.sh
+> ./build-docker-image.sh
+> ./build-native-docker.sh
 
 This will generate the executable in the target-linux folder
 # Uberjar
 
 To generate an Uberjar, run:
-> ./create-uberjar.sh
+> ./build-uberjar.sh
