@@ -6,3 +6,21 @@ Not very organized, but shows the steps involved when you don't know the data st
 and how to explore that data step by step and transform it.
 
 Then ultimately it's abstracted into functions and composed into outputting the RSS's item titles on the commandline
+
+# Run the code
+> ./run.sh
+
+# GraalVM Native image
+
+If you have GraalVM installed and setup, you can generate a Native image using:
+> ./create-native.sh
+
+If you want to generate a native image for the linux platform (and don't use linux as host), use Docker:
+> ./build-docker.sh
+> ./docker-build-native.sh
+
+This will generate the executable in the target-linux folder
+# Uberjar
+
+To generate an Uberjar, run:
+> ./create-uberjar.sh
