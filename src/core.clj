@@ -26,14 +26,15 @@
   (get-value (first (filter title-tag? (:content entry)))))
 
 ;; declare feed
-(def uri "https://cointelegraph.com/rss")
+; (def uri "https://cointelegraph.com/rss")
+; (def uri (first *command-line-args*))
 
 ;; slurp feed as string
 ; (def feed-str (slurp uri))
 
 ;; turn string to xml
 ; (def feed (clojure.xml/parse feed-str))
-(def feed (xml-seq (xml/parse uri)))
+; (def feed (xml-seq (xml/parse uri)))
 
 ; (clojure.inspector/inspect feed)
 
@@ -41,7 +42,7 @@
 
 ;; filter items
 ; (def rss-entries (filter #(= :item (:tag %)) feed))
-(def rss-entries (filter item-tag? feed))
+; (def rss-entries (filter item-tag? feed))
 
 ;; directly filter all titles from feed (issue: this will include feed title and other potential title's)
 ; (def titles_tags (filter #(= :title (:tag %)) feed))
@@ -53,7 +54,7 @@
 ;; (map :content rss-entries)
 
 ;; filter title on first entry
-(filter #(= :title (:tag %)) (:content (first rss-entries)))
+;; (filter #(= :title (:tag %)) (:content (first rss-entries)))
 
 ;; inspect 1 entry
 ;; (clojure.inspector/inspect (first (:content (first (filter title-tag? (:content (first rss-entries)))))))
@@ -74,17 +75,34 @@
 ;      (clojure.inspector/inspect))
 
 ;; from the above we see that we need to map over each entry and execute the transformations
-(def rss-titles (map #(rss-title %) rss-entries))
+; (def rss-titles (map #(rss-title %) rss-entries))
+
+(defn to-xml
+  [uri]
+  (-> uri
+      (xml/parse)
+      (xml-seq)))
+
+(defn parse-uri-and-grab-titles
+  [uri]
+  (->> uri
+       (to-xml)
+       (filter item-tag?)
+       (map #(rss-title %))))
 
 ;; main function
 (defn -main
-  []
+  [& uri-arg] ; need & in case no arg
+  (if uri-arg
+    (let [rss-titles (parse-uri-and-grab-titles (first uri-arg))]
+      (run! println rss-titles)) ; quick way to do function on coll with side effects
+    (println "Add RSS URL as argument"))
+
   ;; (clojure.pprint/pprint rss-titles) ; pretty prints the list
-  (run! println rss-titles) ; quick way to do function on coll with side effects
   ;; (doseq [title rss-titles] ; for more complicated side effect expressions on coll
     ;; (println title))
   )
 
-;; testing since comment won't get executed
+;; testing since comment won't get evaluated
 (comment
-  (-main))
+  (-main "https://cointelegraph.com/rss"))

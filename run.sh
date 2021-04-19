@@ -1,1 +1,1 @@
-clojure -M:run-main
+clojure -M:run-main $1
