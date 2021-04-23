@@ -83,12 +83,20 @@
       (xml/parse)
       (xml-seq)))
 
+(defn get-items
+  [xml-seqed]
+  (filter item-tag? xml-seqed))
+
+(defn get-titles
+  [xml-items]
+  (map #(rss-title %) xml-items))
+
 (defn parse-uri-and-grab-titles
   [uri]
   (->> uri
        (to-xml)
-       (filter item-tag?)
-       (map #(rss-title %))))
+       (get-items)
+       (get-titles)))
 
 ;; main function
 (defn -main
