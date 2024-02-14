@@ -1,5 +1,8 @@
 #!/usr/bin/env bb
 
+(require '[clojure.java.io :as io]
+         '[clojure.data.xml :as xml])
+
 ;; helper functions
 (defn keyword-in-tag?
   [keyword entry]
@@ -16,7 +19,8 @@
 (defn rss-title
   [entry]
   ; (get-value (first (filter #(= :title (:tag %)) (:content entry)))))
-  (get-value (first (filter title-tag? (:content entry)))))
+  ;; (get-value (first (filter title-tag? (:content entry)))))
+  (get-value (some #(when (title-tag? %) %) (:content entry))))
 
 (defn to-xml
   [uri]
