@@ -3,24 +3,24 @@
 (require '[clojure.java.io :as io]
          '[clojure.data.xml :as xml])
 
-;; helper functions
-(defn keyword-in-tag?
-  [keyword entry]
-  (= keyword (:tag entry)))
+;; ;; helper functions
+;; (defn keyword-in-tag?
+;;   [keyword entry]
+;;   (= keyword (:tag entry)))
 
-(def title-tag? (partial keyword-in-tag? :title))
+;; (def title-tag? (partial keyword-in-tag? :title))
 
-(def item-tag? (partial keyword-in-tag? :item))
+;; (def item-tag? (partial keyword-in-tag? :item))
 
-(defn get-value
-  [node]
-  (first (:content node)))
+;; (defn get-value
+;;   [node]
+;;   (first (:content node)))
 
-(defn rss-title
-  [entry]
-  ; (get-value (first (filter #(= :title (:tag %)) (:content entry)))))
-  ;; (get-value (first (filter title-tag? (:content entry)))))
-  (get-value (some #(when (title-tag? %) %) (:content entry))))
+;; (defn rss-title
+;;   [entry]
+;;   ; (get-value (first (filter #(= :title (:tag %)) (:content entry)))))
+;;   ;; (get-value (first (filter title-tag? (:content entry)))))
+;;   (get-value (some #(when (title-tag? %) %) (:content entry))))
 
 (defn to-xml
   [uri]
@@ -28,20 +28,34 @@
       (xml/parse)
       (xml-seq)))
 
-(defn get-items
-  [xml-seqed]
-  (filter item-tag? xml-seqed))
+;; (defn get-items
+;;   [xml-seqed]
+;;   (filter item-tag? xml-seqed))
 
-(defn get-titles
-  [xml-items]
-  (map #(rss-title %) xml-items))
+;; (defn get-titles
+;;   [xml-items]
+;;   (map #(rss-title %) xml-items))
+
+;; (defn parse-uri-and-grab-titles
+;;   [uri]
+;;   (->> (io/reader uri)
+;;        (to-xml)
+;;        (get-items)
+;;        (get-titles)))
+
+(defn get-item-titles
+  [seqd-xml]
+  (for [x seqd-xml
+        :let [xc (:content x)
+              content (comp first :content first)] ; fn
+        :when (= :item (:tag x))]
+    (content (filter (comp #{:title} :tag) xc))))
 
 (defn parse-uri-and-grab-titles
   [uri]
   (->> (io/reader uri)
        (to-xml)
-       (get-items)
-       (get-titles)))
+       (get-item-titles)))
 
 (if *command-line-args*
   (let [rss-titles (parse-uri-and-grab-titles (first *command-line-args*))]
