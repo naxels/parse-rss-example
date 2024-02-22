@@ -1,5 +1,5 @@
-{:deps {org.clojure/clojure {:mvn/version "1.10.3"}
-        org.clojure/data.xml {:mvn/version "0.2.0-alpha8"}}
+{:deps {org.clojure/clojure {:mvn/version "1.11.1"}
+        org.clojure/data.xml {:mvn/version "0.2.0-alpha9"}}
  :aliases {:run-main {:jvm-opts ["--illegal-access=deny"]
                       :main-opts ["-m" "core"]}
            :native-image {:jvm-opts ["--illegal-access=deny"]
@@ -8,7 +8,7 @@
                                       "-m" "core"
                                       "--image-name" "parse-rss-example"]}
            :uberjar {:jvm-opts ["--illegal-access=deny"]
-                     :replace-deps {com.github.seancorfield/depstar {:mvn/version "2.0.216"}}
+                     :replace-deps {com.github.seancorfield/depstar {:mvn/version "2.1.303"}}
                      :exec-fn hf.depstar/uberjar
                      :exec-args {:aot true
                                  :main-class core
