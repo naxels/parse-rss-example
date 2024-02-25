@@ -1,1 +1,1 @@
-clojure -X:uberjar
+clojure -T:build uber
