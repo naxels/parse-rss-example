@@ -1,9 +1,7 @@
 {:deps {org.clojure/clojure {:mvn/version "1.11.1"}
         org.clojure/data.xml {:mvn/version "0.2.0-alpha9"}}
- :aliases {:run-main {:jvm-opts ["--illegal-access=deny"]
-                      :main-opts ["-m" "core"]}
-           :native-image {:jvm-opts ["--illegal-access=deny"]
-                          :extra-deps {luchiniatwork/cambada {:mvn/version "1.0.5"}}
+ :aliases {:run-main {:main-opts ["-m" "parse-rss-example.core"]}
+           :native-image {:extra-deps {luchiniatwork/cambada {:mvn/version "1.0.5"}}
                           :main-opts ["-m" "cambada.native-image"
                                       "-m" "core"
                                       "--image-name" "parse-rss-example"]}
